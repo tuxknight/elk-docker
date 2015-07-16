@@ -1,0 +1,12 @@
+OPENSTACK_PROG (?:[ a-zA-Z0-9_\\-]+\.)+[ A-Za-z0-9_\\-]+
+OPENSTACK_PROG_SINGLE [A-Za-z0-9_\\-]+
+OPENSTACK_SOURCE %{OPENSTACK_PROG}|%{OPENSTACK_PROG_SINGLE}
+OPENSTACK_REQ_LIST (\[(?:(req-%{UUID}|%{UUID}|%{BASE16NUM}|None|-|%{SPACE}))+\])?
+OPENSTACK_PID (%{POSINT:pid:int})?
+OPENSTACK_LOGLEVEL ([D|d]ebug|DEBUG|[N|n]otice|NOTICE|[I|i]nfo|INFO|[W|w]arn?(?:ing)?|WARN?(?:ING)?|[E|e]rr?(?:or)?|ERR?(?:OR)?|[C|c]rit?(?:ical)?|CRIT?(?:ICAL)?|[F|f]atal|FATAL|[S|s]evere|SEVERE|[A|a]udit|AUDIT|TRACE|[T|t]race)
+OPENSTACK_NORMAL %{TIMESTAMP_ISO8601:timestamp} %{OPENSTACK_PID} %{OPENSTACK_LOGLEVEL:loglevel} %{OPENSTACK_SOURCE:program} %{OPENSTACK_REQ_LIST:request_id_list} %{GREEDYDATA:msg}
+RAW_TRACE (?:^[^0-9].*$|^$)
+OPENSTACK_TRACE %{TIMESTAMP_ISO8601:timestamp} %{POSINT:pid:int} %{OPENSTACK_LOGLEVEL:loglevel} %{OPENSTACK_SOURCE:program} %{GREEDYDATA:msg}|%{RAW_TRACE:msg}
+OPENSTACK_MESSAGE %{OPENSTACK_NORMAL}|%{OPENSTACK_TRACE}
+OPENSTACK_SYSLOGLINE %{SYSLOG5424PRI:priority}%{SYSLOGTIMESTAMP:syslog_ts} %{IPORHOST:syslog5424_host} %{GREEDYDATA:syslog_tag}: %{OPENSTACK_MESSAGE:os_message}
+NOVA_API_CALL %{IP:ip} "(?:GET|PUT|POST|DELETE) %{URIPATH:uri} %{NOTSPACE:protocol}" status: %{NUMBER:response_status:int} len: %{NUMBER:response_length:int} time: %{NUMBER:response_time:float} 

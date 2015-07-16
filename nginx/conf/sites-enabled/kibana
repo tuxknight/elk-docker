@@ -1,0 +1,140 @@
+# You may add here your
+upstream kibana {
+  server kibana:5601;
+}
+ server {
+    listen 8080;
+	access_log /logs/kibana_proxy.access.log;
+	error_log /logs/kibana_proxy.error.log;
+	location / {
+	  auth_basic "Authentication required.";
+	  auth_basic_user_file kibana_pass;
+      proxy_pass http://kibana;	
+	  proxy_redirect off;
+	  proxy_set_header Host $host;
+	  proxy_set_header X-Real-IP $remote_addr;
+	  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	  proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+	  proxy_max_temp_file_size 0;
+	  proxy_connect_timeout      90;
+	  proxy_send_timeout  90;
+	  proxy_read_timeout  90;
+	  proxy_buffer_size 4k;
+	  proxy_buffers 4 32k;
+	  proxy_busy_buffers_size 64k;
+	  proxy_temp_file_write_size 64k;
+	}
+ }
+# statements for each of your virtual hosts to this file
+
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+#server {
+#    resolver 10.32.105.131;
+#	resolver_timeout 5s;
+#	listen 0.0.0.0:8080;
+#	access_log /logs/kibana_proxy.access.log;
+#	error_log /logs/kibana_proxy.error.log;
+#	# Make site accessible from http://localhost/
+#
+#	location / {
+#		proxy_pass $scheme://$host$request_uri;
+#		proxy_set_header Host $http_host;
+#
+#		proxy_buffers 256 4k;
+#		proxy_max_temp_file_size 0;
+#
+#		proxy_connect_timeout 30;
+#
+#		proxy_cache_valid 200 302 10m;
+#		proxy_cache_valid 301 1h;
+#		proxy_cache_valid any 1m;
+#	}
+#
+
+	# Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests
+	#location /RequestDenied {
+	#	proxy_pass http://127.0.0.1:8080;    
+	#}
+
+	#error_page 404 /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	#
+	#error_page 500 502 503 504 /50x.html;
+	#location = /50x.html {
+	#	root /usr/share/nginx/html;
+	#}
+
+	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+	#
+	#location ~ \.php$ {
+	#	fastcgi_split_path_info ^(.+\.php)(/.+)$;
+	#	# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+	#
+	#	# With php5-cgi alone:
+	#	fastcgi_pass 127.0.0.1:9000;
+	#	# With php5-fpm:
+	#	fastcgi_pass unix:/var/run/php5-fpm.sock;
+	#	fastcgi_index index.php;
+	#	include fastcgi_params;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+#}
+
+
+# another virtual host using mix of IP-, name-, and port-based configuration
+#
+#server {
+#	listen 8000;
+#	listen somename:8080;
+#	server_name somename alias another.alias;
+#	root html;
+#	index index.html index.htm;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
+
+
+# HTTPS server
+#
+#server {
+#	listen 443;
+#	server_name localhost;
+#
+#	root html;
+#	index index.html index.htm;
+#
+#	ssl on;
+#	ssl_certificate cert.pem;
+#	ssl_certificate_key cert.key;
+#
+#	ssl_session_timeout 5m;
+#
+#	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+#	ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+#	ssl_prefer_server_ciphers on;
+#
+#	location / {
+#		try_files $uri $uri/ =404;
+#	}
+#}
