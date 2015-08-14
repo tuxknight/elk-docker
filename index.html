@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Elk-docker by tuxknight</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Elk-docker</h1>
+        <h2>ELK-openstack-docker: logstash elasticsearch kibana running in docker containers and work together</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/tuxknight/elk-docker/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/tuxknight/elk-docker/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/tuxknight/elk-docker" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <p>.. _README:</p>
+
+<h1>
+<a id="elk-on-docker" class="anchor" href="#elk-on-docker" aria-hidden="true"><span class="octicon octicon-link"></span></a>ELK on docker</h1>
+
+<p>This is a all-in-one package for openstack related log collection. And each of ELK stack componets was running in a docker container.</p>
+
+<h1>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start</h1>
+
+<p>All containers are organized by <code>docker-compose</code> . For these containers were linked by each other, containers could not separated to different hosts.</p>
+
+<p>How ever, you may change the configuration files and make it running separately on a cluster.</p>
+
+<h1>
+<a id="reference" class="anchor" href="#reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference</h1>
+
+<ul>
+<li><p>rsyslog - this directory contains rsyslog configurations which let rsyslog on openstack-node read openstack logs and tranport to logstash.</p></li>
+<li><p>logstash_patterns - a collection of grok patterns that help logstash's filter to parse openstask's logs.</p></li>
+<li><p>all configuration files are volumes that mounted to containers. So change them to make you feel cool !</p></li>
+<li><p>the base images used by this project can be found in hub.docker.com. They are offical base images of course.</p></li>
+</ul>
+
+<p><strong>If you have problems with this project, please create an issue. And we need your pull requests! Thanks!</strong></p>
+
+<p><strong>DOCKERS ARE COOL</strong></p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
